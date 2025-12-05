@@ -15,13 +15,13 @@ export class OramaManager {
     async initialize() {
         const account = await db.account.findUnique({
             where: { id: this.accountId },
-            select: { binaryIndex: true }
+            select: { oramaIndex: true }
         });
 
         if (!account) throw new Error('Account not found');
 
-        if (account.binaryIndex) {
-            this.orama = await restore('json', account.binaryIndex as any);
+        if (account.oramaIndex) {
+            this.orama = await restore('json', account.oramaIndex as any);
         } else {
             this.orama = await create({
                 schema: {

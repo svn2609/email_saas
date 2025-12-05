@@ -23,7 +23,7 @@ const AskAI = ({ isCollapsed }: { isCollapsed: boolean }) => {
         },
         onError: (error) => {
                 toast.error(error.message)
-                console.log('error', error)
+                console.log('error', error.message)
         },
         initialMessages: [],
     });
