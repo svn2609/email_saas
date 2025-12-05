@@ -19,8 +19,7 @@ export const POST = async (req: NextRequest) => {
     })
     if (!dbAccount) return NextResponse.json({ error: "ACCOUNT_NOT_FOUND" }, { status: 404 });
 
-    const account = new Account(dbAccount.token)
-    await account.createSubscription()
+    const account = new Account(dbAccount.accessToken)
     const response = await account.performInitialSync()
     if (!response) return NextResponse.json({ error: "FAILED_TO_SYNC" }, { status: 500 });
 
@@ -30,7 +29,7 @@ export const POST = async (req: NextRequest) => {
 
     await db.account.update({
         where: {
-            token: dbAccount.token,
+            accessToken: dbAccount.accessToken,
         },
         data: {
             nextDeltaToken: deltaToken,

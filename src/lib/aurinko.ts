@@ -6,12 +6,13 @@ import { db } from '@/server/db';
 
 export const getAurinkoAuthorizationUrl = async (serviceType: 'Google' | 'Office365') => {
     const { userId } = await auth()
+    console.log('userId!!!', userId)
     if (!userId) throw new Error('User not found')
 
     const user = await db.user.findUnique({
         where: {
             id: userId
-        }, select: { role: true }
+        }
     })
 
     if (!user) throw new Error('User not found')
