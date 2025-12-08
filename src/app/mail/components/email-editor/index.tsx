@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 import { generate } from './action';
 import { readStreamableValue } from 'ai/rsc';
 import { Separator } from "@/components/ui/separator";
-import { useThread } from "../../use-thread";
-import useThreads from "../../use-threads";
 import { api } from "@/trpc/react";
 import { Input } from "@/components/ui/input";
 import TagInput from "./tag-input";

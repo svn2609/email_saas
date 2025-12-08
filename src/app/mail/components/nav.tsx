@@ -17,15 +17,18 @@ interface NavProps {
   isCollapsed: boolean
   links: {
     title: string
+    value: "inbox" | "draft" | "sent"
     label?: string
     icon: LucideIcon
-    variant: "default" | "ghost",
+    variant: "default" | "ghost"
   }[]
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-
-  const [_, setTab] = useLocalStorage("normalhuman-tab", "inbox")
+  const [_, setTab] = useLocalStorage<"inbox" | "draft" | "sent">(
+    "normalhuman-tab",
+    "inbox"
+  )
 
   return (
     <div
@@ -38,12 +41,12 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <span
-                  onClick={() => setTab(link.title.toLowerCase())}
+                  onClick={() => setTab(link.value)}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9 cursor-pointer",
                     link.variant === "default" &&
-                    "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                   )}
                 >
                   <link.icon className="w-4 h-4" />
@@ -62,11 +65,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
           ) : (
             <span
               key={index}
-              onClick={() => setTab(link.title.toLowerCase())}
+              onClick={() => setTab(link.value)}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
-                "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                 "justify-start cursor-pointer"
               )}
             >
@@ -77,7 +80,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                    "text-background dark:text-white"
+                      "text-background dark:text-white"
                   )}
                 >
                   {link.label}
@@ -90,3 +93,4 @@ export function Nav({ links, isCollapsed }: NavProps) {
     </div>
   )
 }
+

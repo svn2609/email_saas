@@ -14,7 +14,7 @@ const useThreads = () => {
         done,
         tab
     }, { enabled: !!accountId && !!tab, placeholderData: (e) => e, refetchInterval: 1000 * 5 })
-
+    console.log("threads length", threads?.length);
     return {
         threads,
         isFetching,

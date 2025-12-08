@@ -21,10 +21,13 @@ type Props = { isCollapsed: boolean }
 
 const SideBar = ({ isCollapsed }: Props) => {
 
-    const [tab] = useLocalStorage("normalhuman-tab", "inbox")
-    const [accountId] = useLocalStorage("accountId", "")
-
+    const [accountId] = useLocalStorage("accountId", '')
+    const [tab, setTab] = useLocalStorage<'inbox' | 'draft' | 'sent'>(
+        "normalhuman-tab",
+        "inbox"
+      )      
     const refetchInterval = 5000
+
     const { data: inboxThreads } = api.mail.getNumThreads.useQuery({
         accountId,
         tab: "inbox"
@@ -32,7 +35,7 @@ const SideBar = ({ isCollapsed }: Props) => {
 
     const { data: draftsThreads } = api.mail.getNumThreads.useQuery({
         accountId,
-        tab: "drafts"
+        tab: "draft"
     }, { enabled: !!accountId && !!tab, refetchInterval })
 
     const { data: sentThreads } = api.mail.getNumThreads.useQuery({
@@ -47,18 +50,21 @@ const SideBar = ({ isCollapsed }: Props) => {
                 links={[
                     {
                         title: "Inbox",
+                        value: "inbox",
                         label: inboxThreads?.toString() || "0",
                         icon: Inbox,
                         variant: tab === "inbox" ? "default" : "ghost",
                     },
                     {
                         title: "Drafts",
+                        value: "draft",
                         label: draftsThreads?.toString() || "0",
                         icon: File,
-                        variant: tab === "drafts" ? "default" : "ghost",
+                        variant: tab === "draft" ? "default" : "ghost",
                     },
                     {
                         title: "Sent",
+                        value: "sent",
                         label: sentThreads?.toString() || "0",
                         icon: Send,
                         variant: tab === "sent" ? "default" : "ghost",
